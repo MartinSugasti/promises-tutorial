@@ -1,37 +1,31 @@
 import requestsController from './requests_controller';
 
 const displayController = (() => {
-  function displayGiph() {
+  function displayWelcomeGiph() {
     const img = document.querySelector('img');
-    requestsController.getWelcomeGiphURL().then((response) => {
+
+    requestsController.getGiphURLByKeyword('welcome').then((response) => {
       img.src = response;
     });
+  }
 
-    // fetch(
-    //   'https://api.giphy.com/v1/gifs/translate?api_key=ed73ctHCkXxVaoWQqT62B7p5ujurNwkF&s=welcome',
-    //   {
-    //     mode: 'cors',
-    //   }
-    // )
-    //   .then((response) => response.json())
-    //   .then((body) => {
-    //     img.src = body.data.images.original.url;
-    //   });
+  function addSearchFunctionality() {
+    const img = document.querySelector('img');
+    const form = document.querySelector('form');
 
-    const searchButton = document.querySelector('button');
-    searchButton.addEventListener('click', () => {
-      requestsController.getRandomGiphURL().then((response) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const giphKeyword = document.querySelector('input').value;
+
+      requestsController.getGiphURLByKeyword(giphKeyword).then((response) => {
         img.src = response;
       });
-
-      // fetch('https://api.giphy.com/v1/gifs/random?api_key=ed73ctHCkXxVaoWQqT62B7p5ujurNwkF', {
-      //   mode: 'cors',
-      // })
-      //   .then((response) => response.json())
-      //   .then((body) => {
-      //     img.src = body.data.images.original.url;
-      //   });
     });
+  }
+
+  function displayGiph() {
+    displayWelcomeGiph();
+    addSearchFunctionality();
   }
 
   return { displayGiph };

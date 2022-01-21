@@ -1,25 +1,23 @@
 import requestsController from './requests_controller';
 
 const displayController = (() => {
-  function displayWelcomeGiph() {
+  async function displayWelcomeGiph() {
     const img = document.querySelector('img');
 
-    requestsController.getGiphURLByKeyword('welcome').then((response) => {
-      img.src = response;
-    });
+    const welcomeGiphURL = await requestsController.getGiphURLByKeyword('welcome');
+    img.src = welcomeGiphURL;
   }
 
   function addSearchFunctionality() {
     const img = document.querySelector('img');
     const form = document.querySelector('form');
 
-    form.addEventListener('submit', (event) => {
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
       const giphKeyword = document.querySelector('input').value;
 
-      requestsController.getGiphURLByKeyword(giphKeyword).then((response) => {
-        img.src = response;
-      });
+      const giphURL = await requestsController.getGiphURLByKeyword(giphKeyword);
+      img.src = giphURL;
     });
   }
 
